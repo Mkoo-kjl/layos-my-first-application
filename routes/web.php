@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Job;
+use App\Http\Controllers\JobController;
+
 
 // Homepage
 Route::get('/', function () {
@@ -21,3 +23,10 @@ Route::get('/jobs/{id}', function ($id) {
         'job' => Job::find($id)
     ]);
 });
+
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+
+?>
+
+
+
