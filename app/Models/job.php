@@ -4,20 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany; // Import for type hinting
 
 class Job extends Model
 {
     use HasFactory;
 
-    // Tell Laravel the actual table name
+    // By convention, Laravel assumes a 'jobs' table. 
+    // We need to tell it to use our 'job_listings' table instead. 
     protected $table = 'job_listings';
 
-    // (Optional) Specify which columns can be mass-assigned
-    protected $fillable = ['title', 'salary', 'employer_id'];
-
-    // Define relationship: each job belongs to an employer
     public function employer()
     {
-        return $this->belongsTo(Employer::class);
+        return $this->belongsTo(\App\Models\Employer::class);
+    }
+    
+    /**
+     * The tags that belong to the job.
+     */
+    public function tags(): BelongsToMany
+    {
+        // FIX: Specify the pivot table name ('job_listing_tag') as the second argument.
+        // The foreignPivotKey is already correctly defined.
+        return $this->belongsToMany(\App\Models\Tag::class, 'job_listing_tag', foreignPivotKey: "job_listing_id");
     }
 }

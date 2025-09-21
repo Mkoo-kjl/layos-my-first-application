@@ -16,6 +16,8 @@ class JobFactory extends Factory
                 '$90,000 USD',
                 '$150,000 USD'
             ]),
+            
+            'description' => fake()->paragraph(),  
             'employer_id' => Employer::factory(),
         ];
     }

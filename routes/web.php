@@ -27,6 +27,3 @@ Route::get('/jobs/{id}', function ($id) {
 Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 ?>
-
-
-

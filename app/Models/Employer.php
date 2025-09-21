@@ -9,11 +9,15 @@ class Employer extends Model
 {
     use HasFactory;
 
+    // Optional: explicitly define table
+    protected $table = 'employers';
+
+    // Columns that can be mass-assigned
     protected $fillable = ['name'];
 
-    // An Employer can have many Jobs
+    // One-to-Many: an employer can have many jobs
     public function jobs()
     {
-        return $this->hasMany(Job::class);
+        return $this->hasMany(\App\Models\Job::class, 'employer_id');
     }
 }

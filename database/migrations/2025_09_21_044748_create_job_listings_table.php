@@ -10,9 +10,10 @@ return new class extends Migration
     {
         Schema::create('job_listings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employer_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->string('salary');
+            $table->text('description');
+            $table->decimal('salary', 10, 2); // Changed from string to decimal
+            $table->foreignId('employer_id')->constrained('employers')->cascadeOnDelete(); // foreign key
             $table->timestamps();
         });
     }
