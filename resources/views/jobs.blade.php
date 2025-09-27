@@ -1,28 +1,47 @@
 <x-layout>
-    <x-slot:heading>
-        Jobs Page
+    <x-slot:heading>Jobs Page
     </x-slot:heading>
 
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-@foreach ($jobs as $job)
-    <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative group">
-        <h2 class="text-xl font-bold text-gray-900 leading-tight mb-1">
-            {{ $job->title }}
-        </h2>
-        <p class="text-sm font-medium text-gray-500 mb-2">at {{ $job->employer->name }}</p>
-        <p class="text-lg font-semibold text-gray-800">
-            {{ $job->salary }}
-        </p>
-        
-        <a href="{{ route('jobs.show', $job) }}" 
-           class="mt-4 inline-block text-sm font-medium text-white bg-indigo-600 px-4 py-2 rounded-lg shadow-lg 
-                  hover:bg-indigo-700 transition duration-300 transform scale-100 group-hover:scale-105">
-            View Details
-        </a>
 
-        <!-- Optional: A nice visual touch for the hover state -->
-        <div class="absolute inset-0 bg-gradient-to-t from-indigo-500 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
+    <div class="space-y-4">
+        @forelse ($jobs as $job)
+            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                <h3 class="text-lg font-bold text-gray-900 leading-tight mb-1">
+                    {{ $job->title }}
+                </h3>
+
+                <div class="flex justify-between items-center text-sm text-gray-600 mb-3">
+                    <p class="font-medium text-indigo-600">
+                        {{ $job->employer->name }}
+                    </p>
+                    <p class="font-semibold text-green-700">
+                        {{ $job->salary ?? 'Competitive' }}
+                    </p>
+                </div>
+
+                <div class="text-right">
+                    <a
+                        href="/jobs/{{ $job->id }}"
+                        class="inline-block px-4 py-1.5 bg-indigo-500 text-white text-xs font-medium rounded-md hover:bg-indigo-600 transition duration-150"
+                    >
+                        View Details
+                    </a>
+                </div>
+            </div>
+        @empty
+            <div class="p-6 bg-yellow-50 border border-yellow-200 text-center rounded-lg">
+                <p class="text-md text-yellow-800 font-medium">
+                    No jobs are currently postssed.
+                </p>
+            </div>
+        @endforelse
     </div>
-@endforeach
-    
+
+
+    @if (isset($jobs) && method_exists($jobs, 'links'))
+        <div class="mt-8">
+            {{ $jobs->links() }}
+        </div>
+    @endif
+
 </x-layout>
